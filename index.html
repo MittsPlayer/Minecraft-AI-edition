@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#EFE7D6;--pn:#D9CDB4;--ink:#2A2418;--ac:#4E8A2A;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg:#EFE7D6;--pn:#D9CDB4;--ink:#2A2418;--ac:#4E8A2A;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1D1B16;--pn:#2B2820;--ink:#F2EBDD;--ac:#6FB83C}}
 :root[data-theme="dark"]{--bg:#1D1B16;--pn:#2B2820;--ink:#F2EBDD;--ac:#6FB83C}
 html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
@@ -27,15 +27,15 @@ body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:13px/1.4 'S
 #mn input{width:100%;margin:8px 0}
 #mn .r{display:flex;gap:6px}#mn .r button{flex:1;color:var(--ink);background:var(--bg);border-color:var(--ink)}
 #mn .r .on{background:var(--ac);color:#fff}
-#hb{position:absolute;left:50%;bottom:136px;transform:translateX(-50%);display:flex;gap:4px}
+#hb{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);display:flex;gap:4px}
 #hb button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 8px;min-width:42px}
 #hb i{width:20px;height:20px;border:2px solid #fff}
-#js{position:absolute;left:16px;bottom:16px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.5);touch-action:none}
+#js{position:absolute;left:16px;bottom:72px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.5);touch-action:none}
 #kn{position:absolute;left:33px;top:33px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.65)}
-#rb{position:absolute;right:12px;bottom:16px;display:flex;flex-direction:column;gap:8px}
+#rb{position:absolute;right:12px;bottom:72px;display:flex;flex-direction:column;gap:8px}
 #jp{padding:24px 18px}
 #ib{position:absolute;right:84px;top:8px}
-#iv{display:none;position:absolute;bottom:196px;left:8px;right:8px;background:var(--pn);color:var(--ink);border:2px solid var(--ink);padding:10px;max-height:46%;overflow:auto}
+#iv{display:none;position:absolute;bottom:68px;left:8px;right:8px;background:var(--pn);color:var(--ink);border:2px solid var(--ink);padding:10px;max-height:46%;overflow:auto}
 #iv.o{display:block}
 #iv .gr{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}
 #iv .c{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;color:var(--ink);background:var(--bg);border-color:var(--ink);font-size:11px}
@@ -65,6 +65,20 @@ body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:13px/1.4 'S
 #pp .r button{flex:1}#pp .on{background:var(--ac);color:#fff}
 #pp input{width:100%;box-sizing:border-box;margin:6px 0;padding:8px;font:inherit}
 .wl{max-height:40vh;overflow:auto}.wr small{opacity:.7}
+#mn,#pp,#iv{left:50%!important;right:auto!important;transform:translateX(-50%);width:calc(100% - 16px);max-width:520px;box-sizing:border-box}
+#mn{max-height:calc(100% - 64px);overflow:auto}
+#tb{display:flex;flex-direction:column;gap:10px;align-items:center}
+@media (orientation:landscape){#iv .gr{grid-template-columns:repeat(6,1fr)}}
+@media (max-height:500px){
+#js{bottom:12px;width:96px;height:96px}#kn{left:26px;top:26px}
+#rb{bottom:12px;gap:6px}#jp{padding:16px 16px}#rb .t{padding:8px 12px}
+#hb button{padding:3px 6px;min-width:36px}#hb i{width:16px;height:16px}
+#iv{bottom:62px;max-height:calc(100% - 120px)}
+#ui.ttl #mn{bottom:12px}
+#tt{gap:6px}.lg{margin-bottom:16px}.lg h1{font-size:min(8vh,44px)}.lg h2{font-size:min(4vh,20px)}
+#tb{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:min(520px,90%)}
+#tb .mcb{width:100%;padding:9px 6px;font-size:13px}
+#tt small{bottom:4px}}
 </style></head><body>
 <div id="g"><div id="ui" class="ttl">
 <div id="st"><div class="bar" id="hp"></div><div class="bar" id="fd"></div></div>
@@ -75,7 +89,7 @@ body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:13px/1.4 'S
 <div id="hb"></div>
 <div id="js"><div id="kn"></div></div>
 <div id="tt"><div class="lg"><h1>MINECRAFT</h1><h2>AI EDITION</h2><span id="sp" data-t="sp"></span></div>
-<button class="mcb" id="b1" data-t="b1"></button><button class="mcb" id="b2" data-t="b2"></button><button class="mcb" id="b3" data-t="b3"></button><button class="mcb" id="b4" data-t="b4"></button>
+<div id="tb"><button class="mcb" id="b1" data-t="b1"></button><button class="mcb" id="b2" data-t="b2"></button><button class="mcb" id="b3" data-t="b3"></button><button class="mcb" id="b4" data-t="b4"></button></div>
 <small data-t="sm"></small></div><div id="pp"></div>
 <div id="rb"><button class="t" id="md"></button><button class="t" id="jp" data-t="jump"></button></div>
 </div></div>
@@ -156,90 +170,4 @@ $('vol').oninput=e=>{vol=e.target.value/100;sfx(440,.1)};
 document.querySelectorAll('[data-gm]').forEach(b=>b.onclick=()=>{gm=b.dataset.gm;if(gm=='creative')hp=food=20;toast(t(gm=='creative'?'mc':'ms'));ui();hud()});
 const jp=$('jp');jp.onpointerdown=e=>{e.preventDefault();J=1};['pointerup','pointerleave','pointercancel'].forEach(t=>jp.addEventListener(t,()=>J=0));
 const js=$('js'),kn=$('kn');let jid=null;
-function jm(e){const r=js.getBoundingClientRect(),dx=e.clientX-r.left-r.width/2,dy=e.clientY-r.top-r.height/2,m=Math.min(1,Math.hypot(dx,dy)/(r.width/2)),a=Math.atan2(dy,dx);ix=Math.cos(a)*m;iz=Math.sin(a)*m;kn.style.transform='translate('+ix*30+'px,'+iz*30+'px)'}
-js.onpointerdown=e=>{jid=e.pointerId;js.setPointerCapture(jid);jm(e)};
-js.onpointermove=e=>{if(e.pointerId==jid)jm(e)};
-js.onpointerup=js.onpointercancel=()=>{jid=null;ix=iz=0;kn.style.transform=''};
-addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(k=='w')kb.f=1;if(k=='s')kb.f=-1;if(k=='d')kb.s=1;if(k=='a')kb.s=-1;if(k==' '){J=1;e.preventDefault()}});
-addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(k=='w'||k=='s')kb.f=0;if(k=='a'||k=='d')kb.s=0;if(k==' ')J=0});
-const cv=rd.domElement;let lid=null,lx,ly,mx,t0;
-cv.onpointerdown=e=>{if(lid!==null)return;lid=e.pointerId;cv.setPointerCapture(lid);lx=e.clientX;ly=e.clientY;mx=0;t0=performance.now();sfx(1,.01)};
-cv.onpointermove=e=>{if(e.pointerId!==lid)return;const dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;mx+=Math.abs(dx)+Math.abs(dy);yaw-=dx*.005;pitch=Math.max(-1.5,Math.min(1.5,pitch-dy*.005))};
-cv.onpointerup=e=>{if(e.pointerId!==lid)return;lid=null;if(mx<10&&performance.now()-t0<400)act()};
-cv.onpointercancel=()=>lid=null;
-function ray(){const cp=Math.cos(pitch),d=[-Math.sin(yaw)*cp,Math.sin(pitch),-Math.cos(yaw)*cp];let pc=null;
-for(let t=.1;t<5;t+=.05){const x=P.x+d[0]*t,y=P.y+1.55+d[1]*t,z=P.z+d[2]*t;
-const a=an.find(a=>a.dd===undefined&&Math.abs(x-a.x)<.5&&Math.abs(z-a.z)<.5&&y>a.y&&y<a.y+.95);if(a)return{a};
-const c=[Math.floor(x),Math.floor(y),Math.floor(z)];if(get(c[0],c[1],c[2]))return{b:c,p:pc};pc=c}return null}
-function act(){if(!play)return;const r=ray();if(!r)return;
-if(r.a){const a=r.a,dx=a.x-P.x,dz=a.z-P.z,m=Math.hypot(dx,dz)||1;a.hp--;a.fl=.3;a.kb=.4;a.vy=5;a.kx=dx/m*5;a.kz=dz/m*5;sfx(180,.12,'sawtooth');
-if(a.hp<=0){a.dd=.6;if(gm=='survival'){meat+=2;toast(t('meat2'));ui()}}return}
-const[x,y,z]=r.b;
-if(mode=='break'){const b=get(x,y,z);if(b<9&&y>0){add(b==1?2:b,1);set(x,y,z,0);build();sfx(140,.08);ui()}}
-else if(r.p&&(gm=='creative'||inv[sel]>0)){const[px,py,pz]=r.p;if(P.x-P.r<px+1&&P.x+P.r>px&&P.z-P.r<pz+1&&P.z+P.r>pz&&P.y+P.h>py&&P.y<py+1)return;
-set(px,py,pz,sel);if(gm=='survival')inv[sel]--;build();sfx(260,.08);ui()}}
-function fit(){const w=gd.clientWidth,h=gd.clientHeight;rd.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix()}
-addEventListener('resize',fit);fit();ui();hud();
-let play=false,ob=0;
-function go(){play=true;$('ui').classList.remove('ttl');$('mn').classList.remove('o');$('pp').classList.remove('o');toast(t('welcome'));ui();hud()}
-function quit(){save();cur=null;play=false;J=0;ix=iz=0;$('ui').classList.add('ttl');['mn','iv','pp'].forEach(i=>$(i).classList.remove('o'))}
-function pop(h){const p=$('pp');p.innerHTML=h+'<button class="t" id="px">'+t('back')+'</button>';p.classList.add('o');$('px').onclick=()=>p.classList.remove('o')}
-let cur=null,base=null,sa=0;
-const esc=x=>x.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const ld=()=>{try{return JSON.parse(localStorage.getItem('mcw'))||[]}catch(e){return[]}},sv=w=>{try{localStorage.setItem('mcw',JSON.stringify(w))}catch(e){}};
-const seedOf=x=>{if(!x)return 1+Math.floor(Math.random()*1e6);let h=0;for(const c of x)h=(h*31+c.charCodeAt(0))%1000003;return h||1};
-function save(){if(!cur||!play)return;cur.ed=[];for(let i=0;i<wd.length;i++)if(wd[i]!==base[i])cur.ed.push(i,wd[i]);
-cur.p=[P.x,P.y,P.z,yaw];cur.gm=gm;cur.inv={...inv};cur.hot=[...hot];cur.meat=meat;cur.hp=hp;cur.food=food;
-const w=ld(),k=w.findIndex(x=>x.id==cur.id);if(k>=0)w[k]=cur;else w.push(cur);sv(w)}
-addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
-function openW(o){cur=o;gen(o.seed);base=wd.slice();for(let i=0;i<o.ed.length;i+=2)wd[o.ed[i]]=o.ed[i+1];build();spawnAn();
-gm=o.gm;Object.assign(inv,{2:0,3:0,4:0,5:0,6:0},o.inv);hot.splice(0,5,...o.hot);meat=o.meat;hp=o.hp;food=o.food;slot=0;mode='break';pitch=0;
-P.vx=P.vy=P.vz=0;if(o.p){P.x=o.p[0];P.y=o.p[1];P.z=o.p[2];yaw=o.p[3]}else{P.x=P.z=N/2+.5;P.y=hm[N/2][N/2]+1.01;yaw=0}go()}
-function showWorlds(){const w=ld(),p=$('pp');let h='<b>'+t('worlds')+'</b><div class="wl">';
-w.forEach((o,i)=>{h+='<div class="wr"><span>'+esc(o.name)+' <small>'+t(o.gm=='creative'?'cr':'sv')+'</small></span><span><button class="t" data-p="'+i+'">'+t('play')+'</button> <button class="t" data-d="'+i+'">✕</button></span></div>'});
-if(!w.length)h+='<p>'+t('none')+'</p>';
-p.innerHTML=h+'</div><div class="r"><button class="t" id="wn">'+t('newW')+'</button><button class="t" id="px">'+t('back')+'</button></div>';p.classList.add('o');
-p.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>openW(ld()[+b.dataset.p]));
-p.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{if(b.dataset.s){const w=ld();w.splice(+b.dataset.d,1);sv(w);showWorlds()}else{b.dataset.s=1;b.textContent='?'}});
-$('wn').onclick=showNew;$('px').onclick=()=>p.classList.remove('o')}
-function showNew(){const p=$('pp');let m='survival';
-p.innerHTML='<b>'+t('newW')+'</b><label>'+t('wname')+'<input id="nn" maxlength="20" value="'+t('world')+' '+(ld().length+1)+'"></label><label>'+t('seed')+'<input id="ns" maxlength="20" placeholder="'+t('rand')+'"></label><div class="r"><button class="t on" data-m="survival">'+t('sv')+'</button><button class="t" data-m="creative">'+t('cr')+'</button></div><div class="r"><button class="t" id="cc">'+t('create')+'</button><button class="t" id="cb">'+t('back')+'</button></div>';
-p.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{m=b.dataset.m;p.querySelectorAll('[data-m]').forEach(x=>x.classList.toggle('on',x==b))});
-$('cb').onclick=showWorlds;
-$('cc').onclick=()=>{const o={id:Date.now(),name:$('nn').value.trim()||t('world'),seed:seedOf($('ns').value),gm:m,ed:[],p:null,inv:{2:8,3:8,4:8,5:8,6:0},hot:[2,3,4,5,6],meat:0,hp:20,food:20};const w=ld();w.push(o);sv(w);openW(o)}}
-$('b1').onclick=showWorlds;
-$('b2').onclick=()=>pop('<b>'+t('mp')+'</b><p>'+t('mpt')+'</p>');
-$('b3').onclick=()=>$('mn').classList.toggle('o');
-$('b4').onclick=()=>pop('<b>'+t('hw')+'</b><p>'+t('hwt')+'</p>');
-$('mx').onclick=()=>$('mn').classList.remove('o');$('qt').onclick=quit;
-document.querySelectorAll('[data-lg]').forEach(b=>b.onclick=()=>{lang=b.dataset.lg;try{localStorage.setItem('mcl',lang)}catch(e){}tr();$('pp').classList.remove('o');ui()});
-const clk=new THREE.Clock();
-function loop(){requestAnimationFrame(loop);const dt=Math.min(clk.getDelta(),.033);
-if(play){const f=Math.max(-1,Math.min(1,-iz+kb.f)),s=Math.max(-1,Math.min(1,ix+kb.s));
-P.vx=(-Math.sin(yaw)*f+Math.cos(yaw)*s)*4.5;P.vz=(-Math.cos(yaw)*f-Math.sin(yaw)*s)*4.5;
-if(gm=='creative'){if(J)P.vy=7}else if(J&&P.on)P.vy=8.5;
-const v=mv(P,dt);if(P.on&&v<-14&&gm=='survival')dmg(Math.floor(-v-12))}
-et+=dt;if(play){sa+=dt;if(sa>10){sa=0;save()}}
-for(let i=an.length-1;i>=0;i--){const a=an[i];
-if(a.dd!==undefined){a.dd-=dt;a.vx=a.vz=0;mv(a,dt);a.g.position.set(a.x,a.y,a.z);a.g.rotation.z=Math.min(1,(.6-a.dd)/.3)*1.57;a.g.scale.setScalar(Math.max(0,Math.min(1,a.dd/.25)));if(a.dd<=0){scene.remove(a.g);an.splice(i,1)}continue}
-a.t-=dt;if(a.t<=0){a.ang=Math.random()*6.28;a.w=Math.random()<.7;a.t=2+Math.random()*3}
-const d=((a.ang-a.ry+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI;a.ry+=d*Math.min(1,dt*6);
-const go=a.w&&Math.abs(d)<.6;
-if(a.kb>0){a.kb-=dt;a.vx=a.kx;a.vz=a.kz}else{a.vx=go?Math.sin(a.ry)*1.3:0;a.vz=go?Math.cos(a.ry)*1.3:0}
-a.b=0;mv(a,dt);if(a.b&&a.on)a.vy=8;a.fl-=dt;
-a.mov+=((go&&a.kb<=0&&a.on?1:0)-a.mov)*Math.min(1,dt*8);a.ph+=dt*9*a.mov;
-a.legs.forEach((l,k)=>l.rotation.x=Math.sin(a.ph+(k==0||k==3?0:Math.PI))*.7*a.mov);
-a.body.position.y=.5+Math.abs(Math.sin(a.ph))*.04*a.mov;
-a.head.rotation.x=Math.sin(a.ph*2)*.08*a.mov+.5*Math.max(0,Math.sin(et*.7+a.sd))*(1-a.mov);
-a.tail.rotation.z=Math.sin(et*(a.mov>.1?14:3)+a.sd)*.5;
-a.g.rotation.z=a.fl>0?Math.sin(a.fl*40)*.25:0;
-a.g.position.set(a.x,a.y,a.z);a.g.rotation.y=a.ry;
-a.g.children.forEach(m=>m.material.emissive.setHex(a.fl>0?0x888888:0))}
-if(play&&gm=='survival'){ft+=dt;ht+=dt;if(ft>25){ft=0;food=Math.max(0,food-1);hud()}
-if(ht>4){ht=0;if(food>=18&&hp<20){hp++;hud()}else if(food<=0)dmg(1)}}
-if(mt>0){mt-=dt;if(mt<=0)$('ts').textContent=''}
-const r=play?ray():null;if(r&&r.b){box.visible=true;box.position.set(r.b[0]+.5,r.b[1]+.5,r.b[2]+.5)}else box.visible=false;
-if(play){cam.position.set(P.x,P.y+1.55,P.z);cam.rotation.set(pitch,yaw,0)}else{ob+=dt*.12;cam.position.set(N/2+Math.cos(ob)*26,17,N/2+Math.sin(ob)*26);cam.lookAt(N/2,8,N/2)}
-rd.render(scene,cam)}
-loop();
-</script></body></html>
+function jm(e){const r=js.getBoundingClientRect(),dx=e.clientX-r.left-r.width/2,dy=e.clientY-r.top-r.height/2,m=Math.min(1,Math.hypot(dx,dy)/(r.width/2)),a=Math.atan2(dy,dx);ix=Math.cos(a)*m;iz=Math.sin(a)*m;kn.style.transfor
