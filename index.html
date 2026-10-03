@@ -41,7 +41,7 @@ body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:13px/1.4 'S
 #rb{position:absolute;right:12px;bottom:72px;display:flex;flex-direction:column;gap:8px}
 #jp{padding:24px 18px}
 #ib{position:absolute;right:84px;top:8px}
-#iv{display:none;position:absolute;bottom:68px;left:8px;right:8px;background:var(--pn);color:var(--ink);border:2px solid var(--ink);padding:10px;max-height:46%;overflow:auto}
+#iv{display:none;position:absolute;bottom:68px;left:8px;right:8px;background:var(--pn);color:var(--ink);border:2px solid var(--ink);padding:10px;max-height:62%;overflow:auto}
 #iv.o{display:block}
 #iv .gr{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin:8px 0}
 #iv .c{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;color:var(--ink);background:var(--bg);border-color:var(--ink);font-size:11px}
@@ -85,13 +85,16 @@ body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:13px/1.4 'S
 #tb{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:min(520px,90%)}
 #tb .mcb{width:100%;padding:9px 6px;font-size:13px}
 #tt small{bottom:4px}}
+#ui.inv #js,#ui.inv #rb{display:none}
+#rc{position:absolute;top:42px;left:50%;transform:translateX(-50%);color:#fff;text-shadow:0 0 3px #000;font-size:11px;white-space:nowrap}
+#ui.ttl #rc{display:none}
 </style></head><body>
 <div id="er" style="display:none;position:fixed;z-index:99;left:0;right:0;top:0;padding:8px;background:#B00020;color:#fff;font:12px/1.4 monospace;white-space:pre-wrap"></div>
 <script>addEventListener('error',function(e){var d=document.getElementById('er');d.style.display='block';d.textContent+=(e.message||'Error')+(e.filename?' ('+e.filename.split('/').pop()+':'+e.lineno+')':'')+'\n'});</script>
 <div id="g"><div id="ui" class="ttl">
 <div id="st"><div class="bar" id="hp"></div><div class="bar" id="fd"></div></div>
 <button class="t" id="mb" data-t="menu">Menu</button><button class="t" id="ib" data-t="bag">Backpack</button>
-<div id="ch">+</div><div id="ts"></div>
+<div id="ch">+</div><div id="ts"></div><div id="rc"></div>
 <div id="mn"><label><span data-t="vol">Volume</span><input id="vol" type="range" min="0" max="100" value="50"></label><div class="r" id="gr"><button class="t" data-gm="survival" data-t="sv">Survival</button><button class="t" data-gm="creative" data-t="cr">Creative</button></div><div style="margin-top:8px" data-t="lang">Language</div><div class="r"><button class="t" data-lg="en">English</button><button class="t" data-lg="pt">Português</button><button class="t" data-lg="es">Español</button></div><div class="r" style="margin-top:6px"><button class="t" id="mx" data-t="cl">Close</button><button class="t" id="qt" data-t="qt">Quit to title</button></div></div>
 <div id="iv"></div>
 <div id="hb"></div>
@@ -99,17 +102,19 @@ body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:13px/1.4 'S
 <div id="tt"><div class="lg"><h1>MINECRAFT</h1><h2>AI EDITION</h2><span id="sp" data-t="sp">Made with AI!</span></div>
 <div id="tb"><button class="mcb" id="b1" data-t="b1">Singleplayer</button><button class="mcb" id="b2" data-t="b2">Multiplayer</button><button class="mcb" id="b3" data-t="b3">Options</button><button class="mcb" id="b4" data-t="b4">How to play</button></div>
 <small data-t="sm">Fan project, not affiliated with Mojang or Microsoft.</small></div><div id="pp"></div>
-<div id="rb"><button class="t" id="md"></button><button class="t" id="jp" data-t="jump">Jump</button></div>
+<div id="rb"><button class="t" id="md"></button><button class="t" id="sn" data-t="sneak">Sneak</button><button class="t" id="jp" data-t="jump">Jump</button></div>
 </div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>window.THREE||document.write('<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"><\/script>')</script>
 <script>if(!window.THREE){var d=document.getElementById('er');d.style.display='block';d.textContent='Could not load the 3D library (three.js). Check your internet connection or ad blocker.'}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
+<script>window.Peer||document.write('<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"><\/script>')</script>
 <script>
-const $=i=>document.getElementById(i),N=40,H=24,CC=['','#5DA130','#8B5A2B','#7D7D7D','#A0703A','#3F8F3A','#C9A05A'];
+const $=i=>document.getElementById(i),N=64,H=24,CC=['','#5DA130','#8B5A2B','#7D7D7D','#A0703A','#3F8F3A','#C9A05A'];
 let lang='en';
-const L={en:{vol:'Volume',sv:'Survival',cr:'Creative',cl:'Close',qt:'Quit to title',jump:'Jump',menu:'Menu',bag:'Backpack',b1:'Singleplayer',b2:'Multiplayer',b3:'Options',b4:'How to play',sp:'Made with AI!',sm:'Fan project, not affiliated with Mojang or Microsoft.',lang:'Language',die:'You died',meat2:'+2 meat',nowood:'Not enough wood',mc:'Creative mode',ms:'Survival mode',welcome:'Welcome to Minecraft: AI edition!',brk:'Break',plc:'Place',i2:'Dirt',i3:'Stone',i4:'Wood',i5:'Leaves',i6:'Planks',meat:'Meat',craft:'Craft: 1 Wood → 4 Planks',hint:'Tap an item, then another slot to move it. Items you collect go to your hotbar first.',chint:'Tap an item to put it in the selected hotbar slot.',mp:'Multiplayer',mpt:'Not available yet. Playing online with others needs a server, and this version runs only on your device.',hw:'How to play',hwt:'Joystick: move. Drag the screen: look around. Quick tap: break or place a block. Eat meat to restore hunger.',back:'Back',worlds:'Select World',play:'Play',none:'No worlds yet. Create one!',newW:'Create New World',wname:'World name',seed:'Seed (optional)',rand:'Random',create:'Create',world:'World'},
-pt:{vol:'Volume',sv:'Sobrevivência',cr:'Criativo',cl:'Fechar',qt:'Sair ao título',jump:'Pular',menu:'Menu',bag:'Mochila',b1:'Um jogador',b2:'Multijogador',b3:'Opções',b4:'Como jogar',sp:'Feito com IA!',sm:'Projeto de fã, não afiliado à Mojang ou à Microsoft.',lang:'Idioma',die:'Você morreu',meat2:'+2 carne',nowood:'Falta madeira',mc:'Modo criativo',ms:'Modo sobrevivência',welcome:'Bem-vindo ao Minecraft: AI edition!',brk:'Quebrar',plc:'Colocar',i2:'Terra',i3:'Pedra',i4:'Madeira',i5:'Folhas',i6:'Tábuas',meat:'Carne',craft:'Criar: 1 Madeira → 4 Tábuas',hint:'Toque num item e depois em outro espaço para movê-lo. Os itens que você pega vão primeiro para a barra.',chint:'Toque num item para colocá-lo no espaço selecionado da barra.',mp:'Multijogador',mpt:'Ainda não está disponível. Jogar online com outras pessoas exige um servidor, e esta versão roda só no seu aparelho.',hw:'Como jogar',hwt:'Joystick: andar. Arraste a tela: olhar. Toque rápido: quebrar ou colocar bloco. Coma carne para recuperar a fome.',back:'Voltar',worlds:'Selecionar mundo',play:'Jogar',none:'Nenhum mundo ainda. Crie um!',newW:'Criar novo mundo',wname:'Nome do mundo',seed:'Semente (opcional)',rand:'Aleatória',create:'Criar',world:'Mundo'},
-es:{vol:'Volumen',sv:'Supervivencia',cr:'Creativo',cl:'Cerrar',qt:'Salir al título',jump:'Saltar',menu:'Menú',bag:'Mochila',b1:'Un jugador',b2:'Multijugador',b3:'Opciones',b4:'Cómo jugar',sp:'¡Hecho con IA!',sm:'Proyecto de fans, sin relación con Mojang ni Microsoft.',lang:'Idioma',die:'Has muerto',meat2:'+2 carne',nowood:'Falta madera',mc:'Modo creativo',ms:'Modo supervivencia',welcome:'¡Bienvenido a Minecraft: AI edition!',brk:'Romper',plc:'Colocar',i2:'Tierra',i3:'Piedra',i4:'Madera',i5:'Hojas',i6:'Tablones',meat:'Carne',craft:'Fabricar: 1 Madera → 4 Tablones',hint:'Toca un objeto y luego otro espacio para moverlo. Los objetos que recoges van primero a la barra.',chint:'Toca un objeto para ponerlo en el espacio seleccionado de la barra.',mp:'Multijugador',mpt:'Aún no está disponible. Jugar en línea con otras personas requiere un servidor, y esta versión funciona solo en tu dispositivo.',hw:'Cómo jugar',hwt:'Joystick: moverse. Arrastra la pantalla: mirar. Toque rápido: romper o colocar bloque. Come carne para recuperar el hambre.',back:'Volver',worlds:'Seleccionar mundo',play:'Jugar',none:'Aún no hay mundos. ¡Crea uno!',newW:'Crear nuevo mundo',wname:'Nombre del mundo',seed:'Semilla (opcional)',rand:'Aleatoria',create:'Crear',world:'Mundo'}};
+const L={en:{vol:'Volume',sv:'Survival',cr:'Creative',cl:'Close',qt:'Quit to title',jump:'Jump',menu:'Menu',bag:'Backpack',b1:'Singleplayer',b2:'Multiplayer',b3:'Options',b4:'How to play',sp:'Made with AI!',sm:'Fan project, not affiliated with Mojang or Microsoft.',lang:'Language',die:'You died',meat2:'+2 meat',nowood:'Not enough wood',mc:'Creative mode',ms:'Survival mode',welcome:'Welcome to Minecraft: AI edition!',brk:'Break',plc:'Place',i2:'Dirt',i3:'Stone',i4:'Wood',i5:'Leaves',i6:'Planks',meat:'Meat',craft:'Craft: 1 Wood → 4 Planks',hint:'Tap an item, then another slot to move it. Items you collect go to your hotbar first.',chint:'Tap an item to put it in the selected hotbar slot.',mp:'Multiplayer',mpt:'Not available yet. Playing online with others needs a server, and this version runs only on your device.',hw:'How to play',hwt:'Joystick: move. Drag the screen: look around. Hold on a block: break it (cracks show progress). Quick tap: place a block. Eat meat to restore hunger.',back:'Back',sneak:'Sneak',mpinfo:'Players connect directly (peer-to-peer). The host must keep the game open.',mpn:'Your name',mph:'Host a room',mpj:'Join',mpc:'Room code',mpwait:'Connecting...',mpfail:'Could not connect. Check the code and your connection.',mpclosed:'The host closed the room.',room:'Room',worlds:'Select World',play:'Play',none:'No worlds yet. Create one!',newW:'Create New World',wname:'World name',seed:'Seed (optional)',rand:'Random',create:'Create',world:'World'},
+pt:{vol:'Volume',sv:'Sobrevivência',cr:'Criativo',cl:'Fechar',qt:'Sair ao título',jump:'Pular',menu:'Menu',bag:'Mochila',b1:'Um jogador',b2:'Multijogador',b3:'Opções',b4:'Como jogar',sp:'Feito com IA!',sm:'Projeto de fã, não afiliado à Mojang ou à Microsoft.',lang:'Idioma',die:'Você morreu',meat2:'+2 carne',nowood:'Falta madeira',mc:'Modo criativo',ms:'Modo sobrevivência',welcome:'Bem-vindo ao Minecraft: AI edition!',brk:'Quebrar',plc:'Colocar',i2:'Terra',i3:'Pedra',i4:'Madeira',i5:'Folhas',i6:'Tábuas',meat:'Carne',craft:'Criar: 1 Madeira → 4 Tábuas',hint:'Toque num item e depois em outro espaço para movê-lo. Os itens que você pega vão primeiro para a barra.',chint:'Toque num item para colocá-lo no espaço selecionado da barra.',mp:'Multijogador',mpt:'Ainda não está disponível. Jogar online com outras pessoas exige um servidor, e esta versão roda só no seu aparelho.',hw:'Como jogar',hwt:'Joystick: andar. Arraste a tela: olhar. Segure num bloco: quebrar (as rachaduras mostram o progresso). Toque rápido: colocar bloco. Coma carne para recuperar a fome.',back:'Voltar',sneak:'Agachar',mpinfo:'Os jogadores se conectam diretamente (peer-to-peer). Quem criou a sala precisa manter o jogo aberto.',mpn:'Seu nome',mph:'Criar sala',mpj:'Entrar',mpc:'Código da sala',mpwait:'Conectando...',mpfail:'Não foi possível conectar. Confira o código e a internet.',mpclosed:'O anfitrião fechou a sala.',room:'Sala',worlds:'Selecionar mundo',play:'Jogar',none:'Nenhum mundo ainda. Crie um!',newW:'Criar novo mundo',wname:'Nome do mundo',seed:'Semente (opcional)',rand:'Aleatória',create:'Criar',world:'Mundo'},
+es:{vol:'Volumen',sv:'Supervivencia',cr:'Creativo',cl:'Cerrar',qt:'Salir al título',jump:'Saltar',menu:'Menú',bag:'Mochila',b1:'Un jugador',b2:'Multijugador',b3:'Opciones',b4:'Cómo jugar',sp:'¡Hecho con IA!',sm:'Proyecto de fans, sin relación con Mojang ni Microsoft.',lang:'Idioma',die:'Has muerto',meat2:'+2 carne',nowood:'Falta madera',mc:'Modo creativo',ms:'Modo supervivencia',welcome:'¡Bienvenido a Minecraft: AI edition!',brk:'Romper',plc:'Colocar',i2:'Tierra',i3:'Piedra',i4:'Madera',i5:'Hojas',i6:'Tablones',meat:'Carne',craft:'Fabricar: 1 Madera → 4 Tablones',hint:'Toca un objeto y luego otro espacio para moverlo. Los objetos que recoges van primero a la barra.',chint:'Toca un objeto para ponerlo en el espacio seleccionado de la barra.',mp:'Multijugador',mpt:'Aún no está disponible. Jugar en línea con otras personas requiere un servidor, y esta versión funciona solo en tu dispositivo.',hw:'Cómo jugar',hwt:'Joystick: moverse. Arrastra la pantalla: mirar. Mantén pulsado un bloque: romperlo (las grietas muestran el progreso). Toque rápido: colocar bloque. Come carne para recuperar el hambre.',back:'Volver',sneak:'Agacharse',mpinfo:'Los jugadores se conectan directamente (peer-to-peer). Quien crea la sala debe mantener el juego abierto.',mpn:'Tu nombre',mph:'Crear sala',mpj:'Entrar',mpc:'Código de sala',mpwait:'Conectando...',mpfail:'No se pudo conectar. Revisa el código y tu conexión.',mpclosed:'El anfitrión cerró la sala.',room:'Sala',worlds:'Seleccionar mundo',play:'Jugar',none:'Aún no hay mundos. ¡Crea uno!',newW:'Crear nuevo mundo',wname:'Nombre del mundo',seed:'Semilla (opcional)',rand:'Aleatoria',create:'Crear',world:'Mundo'}};
 try{const q=localStorage.getItem('mcl');if(L[q])lang=q}catch(e){}
 const t=k=>L[lang][k];
 function tr(){document.querySelectorAll('[data-t]').forEach(e=>e.textContent=t(e.dataset.t));document.documentElement.lang=lang;document.querySelectorAll('[data-lg]').forEach(b=>b.classList.toggle('on',b.dataset.lg==lang))}
@@ -127,7 +132,7 @@ set(x,h+5,z,5);for(let y=1;y<=4;y++)set(x,h+y,z,4)}}
 gen(1);
 const gd=$('g'),scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(70,1,.1,80),rd=new THREE.WebGLRenderer({antialias:false});
 rd.setPixelRatio(Math.min(devicePixelRatio,1.5));gd.insertBefore(rd.domElement,$('ui'));
-scene.background=new THREE.Color('#8EC8F0');scene.fog=new THREE.Fog('#8EC8F0',18,50);cam.rotation.order='YXZ';
+scene.background=new THREE.Color('#8EC8F0');scene.fog=new THREE.Fog('#8EC8F0',24,64);cam.rotation.order='YXZ';
 scene.add(new THREE.AmbientLight(0xffffff,.65));const dl=new THREE.DirectionalLight(0xffffff,.6);dl.position.set(1,2,.5);scene.add(dl);
 const K=(b,f)=>{const k=document.createElement('canvas');k.width=k.height=16;const x=k.getContext('2d');x.fillStyle=b;x.fillRect(0,0,16,16);if(f)f(x);return k};
 const NZ=(x,cs,n)=>{for(let i=0;i<n;i++){x.fillStyle=cs[(Math.random()*cs.length)|0];x.fillRect(Math.random()*16|0,Math.random()*16|0,1+(Math.random()<.35),1)}};
@@ -150,7 +155,7 @@ x.save();x.transform(14/16,-7/16,0,14/16,16,16);x.drawImage(side,0,0);x.fillStyl
 ICON[1]=cube(cGT,cGS);ICON[2]=cube(cDirt,cDirt);ICON[3]=cube(cSt,cSt);ICON[4]=cube(cRing,cBark);ICON[5]=cube(cLv,cLv);ICON[6]=cube(cPl,cPl);
 {const k=document.createElement('canvas');k.width=k.height=16;const x=k.getContext('2d'),pl={d:'#6E2323',p:'#F4A7A7',r:'#C94A4A',w:'#F2EEDD'};
 ['................','....dddddddd....','..ddppppppppdd..','.dpppprrrrpppppd','.dpprrrrrrrrrrpd','.dprrrrrrrrrrrpd','.dprrrrrrrrrrrrd','..dprrrrrrrrrrd.','...dprrrrrrrrd..','....ddrrrrrdd...','......ddddd.ww..','.............ww.'].forEach((r,y)=>[...r.padEnd(16,'.')].forEach((c,i)=>{if(pl[c]){x.fillStyle=pl[c];x.fillRect(i,y,1,1)}}));ICON[9]=k.toDataURL()}
-const geo=new THREE.BoxGeometry(1,1,1),CAP=9000,mesh=[],D=new THREE.Object3D();
+const geo=new THREE.BoxGeometry(1,1,1),CAP=16000,mesh=[],D=new THREE.Object3D();
 for(let i=1;i<7;i++){mesh[i]=new THREE.InstancedMesh(geo,mats[i],CAP);mesh[i].frustumCulled=false;scene.add(mesh[i])}
 function build(){const c=[0,0,0,0,0,0,0];
 for(let y=0;y<H;y++)for(let z=0;z<N;z++)for(let x=0;x<N;x++){const b=wd[ix_(x,y,z)];if(!b)continue;
@@ -159,19 +164,33 @@ if(c[b]>=CAP)continue;D.position.set(x+.5,y+.5,z+.5);D.updateMatrix();mesh[b].se
 for(let i=1;i<7;i++){mesh[i].count=c[i];mesh[i].instanceMatrix.needsUpdate=true}}
 build();
 const box=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(1.01,1.01,1.01)),new THREE.LineBasicMaterial({color:0x000000}));scene.add(box);
+const crk=[];{let sd=7;const rnd=()=>{sd=(sd*16807)%2147483647;return sd/2147483647},W_=[];
+for(let w=0;w<6;w++){let x=8+(rnd()*4-2|0),y=8+(rnd()*4-2|0),a=rnd()*6.28;const p=[];for(let i=0;i<22;i++){p.push([x|0,y|0]);a+=rnd()-.5;x+=Math.cos(a)*1.1;y+=Math.sin(a)*1.1;if(x<0||x>15||y<0||y>15)break}W_.push(p)}
+const px=[];for(let i=0;i<22;i++)W_.forEach(p=>{if(p[i])px.push(p[i])});
+for(let s=0;s<10;s++){const k=document.createElement('canvas');k.width=k.height=16;const c=k.getContext('2d');c.fillStyle='rgba(20,20,20,.65)';const n=Math.floor(px.length*(s+1)/10);for(let i=0;i<n;i++)c.fillRect(px[i][0],px[i][1],1,1);const q=new THREE.CanvasTexture(k);q.magFilter=q.minFilter=THREE.NearestFilter;crk.push(q)}}
+const cm=new THREE.Mesh(new THREE.BoxGeometry(1.004,1.004,1.004),new THREE.MeshBasicMaterial({map:crk[0],transparent:true,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2}));cm.visible=false;scene.add(cm);
+const HD={1:1.2,2:1,3:4.5,4:3,5:.4,6:2.5},mine={k:'',t:0,tk:0};
+function mining(r,dt){
+if(play&&gm=='survival'&&mode=='break'&&hold&&r&&r.b&&r.b[1]>0){const[x,y,z]=r.b,k=r.b.join(',');if(k!=mine.k){mine.k=k;mine.t=0;mine.tk=0}
+const b=get(x,y,z),need=HD[b]||1;mine.t+=dt;
+if(mine.t>=need){give(b==1?2:b,1);set(x,y,z,0);netB(x,y,z,0);build();sfx(140,.08);ui();mine.k='';mine.t=0;cm.visible=false;return}
+const q=Math.floor(mine.t*5);if(q!=mine.tk){mine.tk=q;sfx(110,.04)}
+cm.visible=true;cm.position.set(x+.5,y+.5,z+.5);cm.material.map=crk[Math.min(9,Math.floor(mine.t/need*10))]}
+else{mine.k='';mine.t=0;cm.visible=false}}
 const mk=(x,y,z,r,h)=>({x,y,z,r,h,vx:0,vy:0,vz:0,on:false,b:0});
 const P=mk(N/2+.5,hm[N/2][N/2]+1.01,N/2+.5,.3,1.7);
 const hit=e=>{for(let x=Math.floor(e.x-e.r);x<=Math.floor(e.x+e.r);x++)for(let z=Math.floor(e.z-e.r);z<=Math.floor(e.z+e.r);z++)for(let y=Math.floor(e.y);y<=Math.floor(e.y+e.h-.001);y++)if(get(x,y,z))return true;return false};
-function mv(e,dt){e.vy-=25*dt;const v=e.vy;let o=e.x;e.x+=e.vx*dt;if(hit(e)){e.x=o;e.b=1}
-o=e.z;e.z+=e.vz*dt;if(hit(e)){e.z=o;e.b=1}
+const sup=e=>{for(let x=Math.floor(e.x-e.r);x<=Math.floor(e.x+e.r);x++)for(let z=Math.floor(e.z-e.r);z<=Math.floor(e.z+e.r);z++)if(get(x,Math.floor(e.y-.05),z))return true;return false};
+function mv(e,dt){e.vy-=25*dt;const v=e.vy;let o=e.x;e.x+=e.vx*dt;if(hit(e)){e.x=o;e.b=1}else if(e.sn&&e.on&&!sup(e))e.x=o;
+o=e.z;e.z+=e.vz*dt;if(hit(e)){e.z=o;e.b=1}else if(e.sn&&e.on&&!sup(e))e.z=o;
 o=e.y;e.y+=e.vy*dt;e.on=false;if(hit(e)){if(e.vy<0){e.y=Math.floor(o)+.001;e.on=true}else e.y=o;e.vy=0}return v}
 const an=[];
-function spawnAn(){an.forEach(a=>scene.remove(a.g));an.length=0;for(let i=0;i<12;i++){const x=3+Math.floor(hs(i+SD,7)*(N-6)),z=3+Math.floor(hs(i+SD,13)*(N-6)),a=mk(x+.5,hm[x][z]+1.02,z+.5,.4,.9),c=i%2?'#F0A0B0':'#6B4A2E';
-if(hit(a))continue;a.hp=3;a.t=0;a.ang=0;a.w=0;a.fl=0;a.kb=0;a.g=new THREE.Group();
+function spawnAn(){an.forEach(a=>scene.remove(a.g));an.length=0;for(let i=0;i<22;i++){const x=3+Math.floor(hs(i+SD,7)*(N-6)),z=3+Math.floor(hs(i+SD,13)*(N-6)),a=mk(x+.5,hm[x][z]+1.02,z+.5,.4,.9),c=i%2?'#F0A0B0':'#6B4A2E';
+if(hit(a))continue;a.id=i;a.hp=3;a.t=0;a.ang=0;a.w=0;a.fl=0;a.kb=0;a.g=new THREE.Group();
 const bx=(w,h,d,px,py,pz,ty)=>{const q=new THREE.BoxGeometry(w,h,d);if(ty)q.translate(0,ty,0);const m=new THREE.Mesh(q,new THREE.MeshLambertMaterial({color:c}));m.position.set(px,py,pz);a.g.add(m);return m};
 a.body=bx(.7,.6,1.1,0,.5,0);a.head=bx(.5,.45,.45,0,.75,.7);a.tail=bx(.1,.3,.1,0,.65,-.6,-.12);a.legs=[[-.25,-.4],[.25,-.4],[-.25,.4],[.25,.4]].map(l=>bx(.2,.25,.2,l[0],.25,l[1],-.125));a.ry=0;a.ph=Math.random()*6;a.mov=0;a.sd=Math.random()*6;[-.14,.14].forEach(x=>{const e=new THREE.Mesh(new THREE.BoxGeometry(.06,.06,.02),new THREE.MeshBasicMaterial({color:0x111111}));e.position.set(x,.07,.23);a.head.add(e)});
 scene.add(a.g);an.push(a)}}spawnAn();
-let yaw=0,pitch=0,ix=0,iz=0,J=0,sel=2,slot=0,invSel=0,mvSel=-1,et=0,mode='break',gm='survival',hp=20,food=20,meat=0,vol=.5,ht=0,ft=0,mt=0,ac;
+let yaw=0,pitch=0,ix=0,iz=0,J=0,sel=2,slot=0,invSel=0,mvSel=-1,et=0,ey=1.55,mode='break',gm='survival',hp=20,food=20,meat=0,vol=.5,ht=0,ft=0,mt=0,ac;
 const kb={f:0,s:0},SL=Array(30).fill(null),nm=id=>t(id==9?'meat':'i'+id);
 const toast=t=>{$('ts').textContent=t;mt=1.6};
 function sfx(f,d,ty){if(!vol)return;try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(ac.state=='suspended')ac.resume();const o=ac.createOscillator(),v=ac.createGain(),t=ac.currentTime;o.type=ty||'square';o.frequency.value=f;v.gain.setValueAtTime(vol*.2,t);v.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(v);v.connect(ac.destination);o.start(t);o.stop(t+d)}catch(e){}}
@@ -191,7 +210,7 @@ slot=i;if(SL[i]){mode='place';toast(nm(SL[i].id))}ui()}
 function ui(){const hb=$('hb');hb.innerHTML='';for(let i=0;i<6;i++)hb.appendChild(slotEl(i,i==slot,()=>hbTap(i)));
 $('md').textContent=t(mode=='break'?'brk':'plc');
 document.querySelectorAll('[data-gm]').forEach(b=>b.classList.toggle('on',b.dataset.gm==gm));rv()}
-function rv(){const p=$('iv');if(!p.classList.contains('o'))return;p.innerHTML='';
+function rv(){const p=$('iv');$('ui').classList.toggle('inv',p.classList.contains('o'));if(!p.classList.contains('o'))return;p.innerHTML='';
 const h=document.createElement('b');h.textContent=t('bag');p.appendChild(h);
 const g1=document.createElement('div');g1.className='gr';
 const note=x=>{const q=document.createElement('p');q.textContent=x;p.appendChild(q)};
@@ -203,8 +222,9 @@ const c=document.createElement('button');c.className='t c';c.textContent=t('craf
 c.onclick=()=>{const k=SL.findIndex(s=>s&&s.id==4);if(k<0){toast(t('nowood'));return}SL[k].n--;if(!SL[k].n)SL[k]=null;give(6,4);sfx(400,.1);ui()};
 p.appendChild(c);note(t('hint'))}}
 $('ib').onclick=()=>{$('mn').classList.remove('o');$('iv').classList.toggle('o');mvSel=-1;ui()};
+const snk=v=>{P.sn=v;$('sn').classList.toggle('on',v)};$('sn').onclick=()=>snk(!P.sn);
 $('md').onclick=()=>{mode=mode=='break'?'place':'break';ui()};
-$('mb').onclick=()=>{$('iv').classList.remove('o');$('mn').classList.toggle('o')};
+$('mb').onclick=()=>{$('iv').classList.remove('o');$('ui').classList.remove('inv');$('mn').classList.toggle('o')};
 $('vol').oninput=e=>{vol=e.target.value/100;sfx(440,.1)};
 document.querySelectorAll('[data-gm]').forEach(b=>b.onclick=()=>{gm=b.dataset.gm;if(gm=='creative')hp=food=20;toast(t(gm=='creative'?'mc':'ms'));ui();hud()});
 const jp=$('jp');jp.onpointerdown=e=>{e.preventDefault();J=1};['pointerup','pointerleave','pointercancel'].forEach(t=>jp.addEventListener(t,()=>J=0));
@@ -213,57 +233,114 @@ function jm(e){const r=js.getBoundingClientRect(),dx=e.clientX-r.left-r.width/2,
 js.onpointerdown=e=>{jid=e.pointerId;js.setPointerCapture(jid);jm(e)};
 js.onpointermove=e=>{if(e.pointerId==jid)jm(e)};
 js.onpointerup=js.onpointercancel=()=>{jid=null;ix=iz=0;kn.style.transform=''};
-addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(k=='w')kb.f=1;if(k=='s')kb.f=-1;if(k=='d')kb.s=1;if(k=='a')kb.s=-1;if(k==' '){J=1;e.preventDefault()}});
-addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(k=='w'||k=='s')kb.f=0;if(k=='a'||k=='d')kb.s=0;if(k==' ')J=0});
-const cv=rd.domElement;let lid=null,lx,ly,mx,t0;
-cv.onpointerdown=e=>{if(lid!==null)return;lid=e.pointerId;cv.setPointerCapture(lid);lx=e.clientX;ly=e.clientY;mx=0;t0=performance.now();sfx(1,.01)};
-cv.onpointermove=e=>{if(e.pointerId!==lid)return;const dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;mx+=Math.abs(dx)+Math.abs(dy);yaw-=dx*.005;pitch=Math.max(-1.5,Math.min(1.5,pitch-dy*.005))};
-cv.onpointerup=e=>{if(e.pointerId!==lid)return;lid=null;if(mx<10&&performance.now()-t0<400)act()};
-cv.onpointercancel=()=>lid=null;
+addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(k=='w')kb.f=1;if(k=='s')kb.f=-1;if(k=='d')kb.s=1;if(k=='a')kb.s=-1;if(k==' '){J=1;e.preventDefault()}if(k=='shift')snk(true)});
+addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(k=='w'||k=='s')kb.f=0;if(k=='a'||k=='d')kb.s=0;if(k==' ')J=0;if(k=='shift')snk(false)});
+const cv=rd.domElement;let lid=null,lx,ly,mx,t0,sx,sy,hold=false;
+cv.onpointerdown=e=>{if(lid!==null)return;lid=e.pointerId;cv.setPointerCapture(lid);lx=e.clientX;ly=e.clientY;mx=0;sx=lx;sy=ly;hold=true;t0=performance.now();sfx(1,.01)};
+cv.onpointermove=e=>{if(e.pointerId!==lid)return;const dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;mx+=Math.abs(dx)+Math.abs(dy);if(Math.hypot(e.clientX-sx,e.clientY-sy)>14)hold=false;yaw-=dx*.005;pitch=Math.max(-1.5,Math.min(1.5,pitch-dy*.005))};
+cv.onpointerup=e=>{if(e.pointerId!==lid)return;lid=null;hold=false;if(mx<10&&performance.now()-t0<400)act()};
+cv.onpointercancel=()=>{lid=null;hold=false};
 function ray(){const cp=Math.cos(pitch),d=[-Math.sin(yaw)*cp,Math.sin(pitch),-Math.cos(yaw)*cp];let pc=null;
-for(let t=.1;t<5;t+=.05){const x=P.x+d[0]*t,y=P.y+1.55+d[1]*t,z=P.z+d[2]*t;
+for(let t=.1;t<5;t+=.05){const x=P.x+d[0]*t,y=P.y+ey+d[1]*t,z=P.z+d[2]*t;
 const a=an.find(a=>a.dd===undefined&&Math.abs(x-a.x)<.5&&Math.abs(z-a.z)<.5&&y>a.y&&y<a.y+.95);if(a)return{a};
 const c=[Math.floor(x),Math.floor(y),Math.floor(z)];if(get(c[0],c[1],c[2]))return{b:c,p:pc};pc=c}return null}
 function act(){if(!play)return;const s=SL[slot];
 if(mode=='place'&&s&&s.id==9){eat();return}
 const r=ray();if(!r)return;
-if(r.a){const a=r.a,dx=a.x-P.x,dz=a.z-P.z,m=Math.hypot(dx,dz)||1;a.hp--;a.fl=.3;a.kb=.4;a.vy=5;a.kx=dx/m*5;a.kz=dz/m*5;sfx(180,.12,'sawtooth');
-if(a.hp<=0&&a.dd===undefined){a.dd=.6;if(gm=='survival'){give(9,2);toast(t('meat2'));ui()}}return}
+if(r.a){const a=r.a;if(net.g){send(net.conns[0],{t:'hit',i:a.id});a.fl=.3;sfx(180,.12,'sawtooth');return}
+if(dmgAn(a,P.x,P.z,net.id)&&gm=='survival'){give(9,2);toast(t('meat2'));ui()}return}
 const[x,y,z]=r.b;
-if(mode=='break'){const b=get(x,y,z);if(b<9&&y>0){if(gm=='survival')give(b==1?2:b,1);set(x,y,z,0);build();sfx(140,.08);ui()}}
+if(mode=='break'){if(gm=='creative'){const b=get(x,y,z);if(b<9&&y>0){set(x,y,z,0);netB(x,y,z,0);build();sfx(140,.08);ui()}}}
 else if(r.p&&s&&s.id<9){const[px,py,pz]=r.p;if(P.x-P.r<px+1&&P.x+P.r>px&&P.z-P.r<pz+1&&P.z+P.r>pz&&P.y+P.h>py&&P.y<py+1)return;
-set(px,py,pz,s.id);if(gm=='survival'){s.n--;if(!s.n)SL[slot]=null}build();sfx(260,.08);ui()}}
+set(px,py,pz,s.id);netB(px,py,pz,s.id);if(gm=='survival'){s.n--;if(!s.n)SL[slot]=null}build();sfx(260,.08);ui()}}
 function fit(){const w=gd.clientWidth,h=gd.clientHeight;rd.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix()}
 addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,250));fit();ui();hud();
 let play=false,ob=0;
-function go(){play=true;$('ui').classList.remove('ttl');$('mn').classList.remove('o');$('pp').classList.remove('o');toast(t('welcome'));ui();hud()}
-function quit(){save();cur=null;play=false;J=0;ix=iz=0;$('ui').classList.add('ttl');['mn','iv','pp'].forEach(i=>$(i).classList.remove('o'))}
+function go(){play=true;$('ui').classList.remove('ttl','inv');$('mn').classList.remove('o');$('pp').classList.remove('o');toast(t('welcome'));ui();hud()}
+function quit(){netClose();save();cur=null;play=false;J=0;ix=iz=0;$('ui').classList.add('ttl');['mn','iv','pp'].forEach(i=>$(i).classList.remove('o'))}
 function pop(h){const p=$('pp');p.innerHTML=h+'<button class="t" id="px">'+t('back')+'</button>';p.classList.add('o');$('px').onclick=()=>p.classList.remove('o')}
 let cur=null,base=null,sa=0;
 const esc=x=>x.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const ld=()=>{try{return JSON.parse(localStorage.getItem('mcw'))||[]}catch(e){return[]}},sv=w=>{try{localStorage.setItem('mcw',JSON.stringify(w))}catch(e){}};
 const seedOf=x=>{if(!x)return 1+Math.floor(Math.random()*1e6);let h=0;for(const c of x)h=(h*31+c.charCodeAt(0))%1000003;return h||1};
-function save(){if(!cur||!play)return;cur.ed=[];for(let i=0;i<wd.length;i++)if(wd[i]!==base[i])cur.ed.push(i,wd[i]);
+function save(){if(!cur||!play)return;cur.ed=[];cur.n=N;for(let i=0;i<wd.length;i++)if(wd[i]!==base[i])cur.ed.push(i,wd[i]);
 cur.p=[P.x,P.y,P.z,yaw];cur.gm=gm;cur.sl=SL.map(s=>s?{id:s.id,n:s.n}:null);cur.hp=hp;cur.food=food;
 const w=ld(),k=w.findIndex(x=>x.id==cur.id);if(k>=0)w[k]=cur;else w.push(cur);sv(w)}
 addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
-function openW(o){cur=o;gen(o.seed);base=wd.slice();for(let i=0;i<o.ed.length;i+=2)wd[o.ed[i]]=o.ed[i+1];build();spawnAn();
+function openW(o){cur=o;gen(o.seed);base=wd.slice();const on=o.n||40;for(let i=0;i<o.ed.length;i+=2){let q=o.ed[i];if(on!=N){const x=q%on,z=Math.floor(q/on)%on,y=Math.floor(q/(on*on));q=ix_(x,y,z)}wd[q]=o.ed[i+1]}build();spawnAn();
 gm=o.gm;SL.fill(null);mvSel=-1;if(o.sl)o.sl.forEach((q,i)=>SL[i]=q);else{Object.entries(o.inv||{}).forEach(([k,n])=>n&&give(+k,n));if(o.meat)give(9,o.meat)}hp=o.hp;food=o.food;slot=0;mode='break';pitch=0;
 P.vx=P.vy=P.vz=0;if(o.p){P.x=o.p[0];P.y=o.p[1];P.z=o.p[2];yaw=o.p[3]}else{P.x=P.z=N/2+.5;P.y=hm[N/2][N/2]+1.01;yaw=0}go()}
 function showWorlds(){const w=ld(),p=$('pp');let h='<b>'+t('worlds')+'</b><div class="wl">';
 w.forEach((o,i)=>{h+='<div class="wr"><span>'+esc(o.name)+' <small>'+t(o.gm=='creative'?'cr':'sv')+'</small></span><span><button class="t" data-p="'+i+'">'+t('play')+'</button> <button class="t" data-d="'+i+'">✕</button></span></div>'});
 if(!w.length)h+='<p>'+t('none')+'</p>';
 p.innerHTML=h+'</div><div class="r"><button class="t" id="wn">'+t('newW')+'</button><button class="t" id="px">'+t('back')+'</button></div>';p.classList.add('o');
-p.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>openW(ld()[+b.dataset.p]));
+p.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{openW(ld()[+b.dataset.p]);hostIf()});
 p.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{if(b.dataset.s){const w=ld();w.splice(+b.dataset.d,1);sv(w);showWorlds()}else{b.dataset.s=1;b.textContent='?'}});
 $('wn').onclick=showNew;$('px').onclick=()=>p.classList.remove('o')}
 function showNew(){const p=$('pp');let m='survival';
 p.innerHTML='<b>'+t('newW')+'</b><label>'+t('wname')+'<input id="nn" maxlength="20" value="'+t('world')+' '+(ld().length+1)+'"></label><label>'+t('seed')+'<input id="ns" maxlength="20" placeholder="'+t('rand')+'"></label><div class="r"><button class="t on" data-m="survival">'+t('sv')+'</button><button class="t" data-m="creative">'+t('cr')+'</button></div><div class="r"><button class="t" id="cc">'+t('create')+'</button><button class="t" id="cb">'+t('back')+'</button></div>';
 p.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{m=b.dataset.m;p.querySelectorAll('[data-m]').forEach(x=>x.classList.toggle('on',x==b))});
 $('cb').onclick=showWorlds;
-$('cc').onclick=()=>{const o={id:Date.now(),name:$('nn').value.trim()||t('world'),seed:seedOf($('ns').value),gm:m,ed:[],p:null,sl:Array(30).fill(null),hp:20,food:20};const w=ld();w.push(o);sv(w);openW(o)}}
-$('b1').onclick=showWorlds;
-$('b2').onclick=()=>pop('<b>'+t('mp')+'</b><p>'+t('mpt')+'</p>');
+$('cc').onclick=()=>{const o={id:Date.now(),name:$('nn').value.trim()||t('world'),seed:seedOf($('ns').value),gm:m,ed:[],p:null,sl:Array(30).fill(null),hp:20,food:20};const w=ld();w.push(o);sv(w);openW(o);hostIf()}}
+const net={peer:null,conns:[],g:false,h:false,id:'',name:'Player',code:'',rp:{},ok:0};
+let mpHost=false;
+const send=(c,m)=>{try{if(c&&c.open)c.send(m)}catch(e){}};
+const bc=(m,ex)=>net.conns.forEach(c=>{if(c!==ex)send(c,m)});
+function rpDel(id){const r=net.rp[id];if(r){scene.remove(r.g);delete net.rp[id]}}
+function netClose(){const p=net.peer;net.peer=null;net.g=net.h=false;net.ok=0;net.conns=[];Object.keys(net.rp).forEach(rpDel);$('rc').textContent='';try{p&&p.destroy()}catch(e){}}
+function lbl(r,n){const k=document.createElement('canvas');k.width=128;k.height=32;const x=k.getContext('2d');x.font='bold 18px monospace';x.textAlign='center';x.fillStyle='rgba(0,0,0,.5)';x.fillRect(0,0,128,32);x.fillStyle='#fff';x.fillText(n,64,22);
+const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(k),depthTest:false}));sp.scale.set(1.6,.4,1);sp.position.y=2;if(r.sp)r.g.remove(r.sp);r.sp=sp;r.g.add(sp)}
+function rpGet(id,nm){let r=net.rp[id];if(!r){const g=new THREE.Group(),hu=id.charCodeAt(id.length-1)*37%360,bx=(w,hh,d,x,y,c)=>{const q=new THREE.Mesh(new THREE.BoxGeometry(w,hh,d),new THREE.MeshLambertMaterial({color:c}));q.position.set(x,y,0);g.add(q);return q};
+bx(.5,.5,.5,0,1.45,'#E0B08C');bx(.5,.7,.3,0,.95,'hsl('+hu+',60%,45%)');bx(.5,.06,.02,0,1.5,'#111').position.z=.26;
+r={g,legs:[bx(.25,.6,.25,-.13,.3,'#3B3F8F'),bx(.25,.6,.25,.13,.3,'#3B3F8F')],x:0,y:0,z:0,ry:0,mov:0,ph:0,nm:'',st:0};net.rp[id]=r;scene.add(g)}
+if(nm&&nm!==r.nm){r.nm=nm;lbl(r,nm)}return r}
+function rpSet(m){const r=rpGet(m.id,m.n);r.x=m.x;r.y=m.y;r.z=m.z;r.ry=m.r+Math.PI;if(!r.st){r.st=1;r.g.position.set(m.x,m.y,m.z);r.g.rotation.y=r.ry}}
+function netB(x,y,z,v){if(!net.peer)return;const m={t:'b',x,y,z,v};if(net.h)bc(m);else send(net.conns[0],m)}
+function dmgAn(a,fx,fz,by){const dx=a.x-fx,dz=a.z-fz,m=Math.hypot(dx,dz)||1;a.hp--;a.fl=.3;a.kb=.4;a.vy=5;a.kx=dx/m*5;a.kz=dz/m*5;sfx(180,.12,'sawtooth');
+if(a.hp<=0&&a.dd===undefined){a.dd=.6;if(net.h)bc({t:'d',i:a.id,by});return true}return false}
+function netTick(dt){if(!net.peer)return;
+net.tp=(net.tp||0)+dt;if(net.tp>.1&&play){net.tp=0;const m={t:'p',id:net.id,n:net.name,x:P.x,y:P.y,z:P.z,r:yaw};if(net.h)bc(m);else send(net.conns[0],m)}
+if(net.h){net.ta=(net.ta||0)+dt;if(net.ta>.12){net.ta=0;bc({t:'an',a:an.filter(a=>a.dd===undefined).map(a=>[a.id,+a.x.toFixed(2),+a.y.toFixed(2),+a.z.toFixed(2),+a.ry.toFixed(2),+a.mov.toFixed(1)])})}}
+Object.values(net.rp).forEach(r=>{const k=Math.min(1,dt*10),p=r.g.position,ox=p.x,oz=p.z;p.x+=(r.x-p.x)*k;p.y+=(r.y-p.y)*k;p.z+=(r.z-p.z)*k;
+r.g.rotation.y+=(((r.ry-r.g.rotation.y+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI)*k;
+const sp=Math.hypot(p.x-ox,p.z-oz)/Math.max(dt,.001);r.mov+=((sp>.3?1:0)-r.mov)*Math.min(1,dt*8);r.ph+=dt*9*r.mov;
+r.legs[0].rotation.x=Math.sin(r.ph)*.7*r.mov;r.legs[1].rotation.x=-Math.sin(r.ph)*.7*r.mov});
+const tx=t('room')+' '+net.code+' · '+(1+Object.keys(net.rp).length);if($('rc').textContent!==tx)$('rc').textContent=tx}
+function startHost(){if(!window.Peer){toast(t('mpfail'));return}
+netClose();const code=Math.random().toString(36).slice(2,7).toUpperCase();net.h=true;net.code=code;
+const pr=net.peer=new Peer('mcai-'+code);
+pr.on('open',id=>{net.id=id;toast(t('room')+' '+code)});
+pr.on('error',e=>{if(net.peer!==pr)return;if(e.type=='unavailable-id')startHost();else toast(t('mpfail'))});
+pr.on('connection',c=>{net.conns.push(c);c.on('data',m=>hostMsg(c,m));c.on('close',()=>{net.conns=net.conns.filter(x=>x!==c);rpDel(c.peer);bc({t:'x',id:c.peer})})})}
+function hostMsg(c,m){if(!m||!m.t)return;
+if(m.t=='hi'){const ed=[];for(let i=0;i<wd.length;i++)if(wd[i]!==base[i])ed.push(i,wd[i]);send(c,{t:'init',seed:cur.seed,n:N,ed,gm})}
+else if(m.t=='p'){m.id=c.peer;bc(m,c);rpSet(m)}
+else if(m.t=='b'){set(m.x,m.y,m.z,m.v);build();bc(m,c)}
+else if(m.t=='hit'){const a=an.find(a=>a.id==m.i&&a.dd===undefined),r=net.rp[c.peer];if(a)dmgAn(a,r?r.x:a.x,r?r.z:a.z,c.peer)}}
+function startJoin(code){if(!window.Peer){toast(t('mpfail'));return}
+netClose();net.g=true;net.code=code;toast(t('mpwait'));const pr=net.peer=new Peer();
+const fail=()=>{if(net.peer===pr&&!net.ok){toast(t('mpfail'));netClose()}};
+pr.on('error',fail);setTimeout(fail,12000);
+pr.on('open',id=>{net.id=id;const c=pr.connect('mcai-'+code);net.conns=[c];
+c.on('open',()=>send(c,{t:'hi',name:net.name}));c.on('data',guestMsg);
+c.on('close',()=>{if(net.peer===pr&&net.g){toast(t('mpclosed'));quit()}})})}
+function guestMsg(m){if(!m||!m.t)return;
+if(m.t=='init'){net.ok=1;openW({id:'mp',name:'Room',seed:m.seed,gm:m.gm,ed:m.ed,n:m.n,p:null,sl:Array(30).fill(null),hp:20,food:20});cur=null}
+else if(m.t=='p')rpSet(m);
+else if(m.t=='b'){set(m.x,m.y,m.z,m.v);build()}
+else if(m.t=='x')rpDel(m.id);
+else if(m.t=='an'){const ids={};m.a.forEach(q=>{ids[q[0]]=1;const a=an.find(a=>a.id==q[0]);if(a&&a.dd===undefined){if(a.tx===undefined){a.x=q[1];a.y=q[2];a.z=q[3];a.ry=q[4]}a.tx=q[1];a.ty=q[2];a.tz=q[3];a.tr=q[4];a.tm=q[5]}});
+for(let i=an.length-1;i>=0;i--)if(!ids[an[i].id]&&an[i].dd===undefined){scene.remove(an[i].g);an.splice(i,1)}}
+else if(m.t=='d'){const a=an.find(a=>a.id==m.i);if(a&&a.dd===undefined)a.dd=.6;if(m.by==net.id&&gm=='survival'){give(9,2);toast(t('meat2'));ui()}}}
+const hostIf=()=>{if(mpHost){mpHost=false;startHost()}};
+function showMulti(){const p=$('pp');
+p.innerHTML='<b>'+t('mp')+'</b><p>'+t('mpinfo')+'</p><label>'+t('mpn')+'<input id="mnm" maxlength="12" value="'+esc(net.name==='Player'?'Player'+(100+Math.floor(Math.random()*900)):net.name)+'"></label><div class="r"><button class="t" id="mh">'+t('mph')+'</button></div><label>'+t('mpc')+'<input id="mcd" maxlength="5" style="text-transform:uppercase"></label><div class="r"><button class="t" id="mj">'+t('mpj')+'</button><button class="t" id="px">'+t('back')+'</button></div>';
+p.classList.add('o');const nn=()=>{net.name=($('mnm').value.trim()||'Player').slice(0,12)};
+$('mh').onclick=()=>{nn();mpHost=true;showWorlds()};
+$('mj').onclick=()=>{const c=$('mcd').value.trim().toUpperCase();if(c.length<3)return;nn();startJoin(c)};
+$('px').onclick=()=>p.classList.remove('o')}
+$('b1').onclick=()=>{mpHost=false;showWorlds()};
+$('b2').onclick=showMulti;
 $('b3').onclick=()=>$('mn').classList.toggle('o');
 $('b4').onclick=()=>pop('<b>'+t('hw')+'</b><p>'+t('hwt')+'</p>');
 $('mx').onclick=()=>$('mn').classList.remove('o');$('qt').onclick=quit;
@@ -271,18 +348,19 @@ document.querySelectorAll('[data-lg]').forEach(b=>b.onclick=()=>{lang=b.dataset.
 const clk=new THREE.Clock();
 function loop(){requestAnimationFrame(loop);const dt=Math.min(clk.getDelta(),.033);
 if(play){const f=Math.max(-1,Math.min(1,-iz+kb.f)),s=Math.max(-1,Math.min(1,ix+kb.s));
-P.vx=(-Math.sin(yaw)*f+Math.cos(yaw)*s)*4.5;P.vz=(-Math.cos(yaw)*f-Math.sin(yaw)*s)*4.5;
+const sp=P.sn?1.8:4.5;P.vx=(-Math.sin(yaw)*f+Math.cos(yaw)*s)*sp;P.vz=(-Math.cos(yaw)*f-Math.sin(yaw)*s)*sp;
 if(gm=='creative'){if(J)P.vy=7}else if(J&&P.on)P.vy=8.5;
 const v=mv(P,dt);if(P.on&&v<-14&&gm=='survival')dmg(Math.floor(-v-12))}
 et+=dt;if(play){sa+=dt;if(sa>10){sa=0;save()}}
 for(let i=an.length-1;i>=0;i--){const a=an[i];
 if(a.dd!==undefined){a.dd-=dt;a.vx=a.vz=0;mv(a,dt);a.g.position.set(a.x,a.y,a.z);a.g.rotation.z=Math.min(1,(.6-a.dd)/.3)*1.57;a.g.scale.setScalar(Math.max(0,Math.min(1,a.dd/.25)));if(a.dd<=0){scene.remove(a.g);an.splice(i,1)}continue}
-a.t-=dt;if(a.t<=0){a.ang=Math.random()*6.28;a.w=Math.random()<.7;a.t=2+Math.random()*3}
+if(net.g){if(a.tx!==undefined){const k=Math.min(1,dt*10);a.x+=(a.tx-a.x)*k;a.y+=(a.ty-a.y)*k;a.z+=(a.tz-a.z)*k;const d=((a.tr-a.ry+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI;a.ry+=d*k}a.fl-=dt;a.mov+=((a.tm||0)-a.mov)*Math.min(1,dt*8)}else{a.t-=dt;if(a.t<=0){a.ang=Math.random()*6.28;a.w=Math.random()<.7;a.t=2+Math.random()*3}
 const d=((a.ang-a.ry+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI;a.ry+=d*Math.min(1,dt*6);
 const go=a.w&&Math.abs(d)<.6;
 if(a.kb>0){a.kb-=dt;a.vx=a.kx;a.vz=a.kz}else{a.vx=go?Math.sin(a.ry)*1.3:0;a.vz=go?Math.cos(a.ry)*1.3:0}
 a.b=0;mv(a,dt);if(a.b&&a.on)a.vy=8;a.fl-=dt;
-a.mov+=((go&&a.kb<=0&&a.on?1:0)-a.mov)*Math.min(1,dt*8);a.ph+=dt*9*a.mov;
+a.mov+=((go&&a.kb<=0&&a.on?1:0)-a.mov)*Math.min(1,dt*8)}
+a.ph+=dt*9*a.mov;
 a.legs.forEach((l,k)=>l.rotation.x=Math.sin(a.ph+(k==0||k==3?0:Math.PI))*.7*a.mov);
 a.body.position.y=.5+Math.abs(Math.sin(a.ph))*.04*a.mov;
 a.head.rotation.x=Math.sin(a.ph*2)*.08*a.mov+.5*Math.max(0,Math.sin(et*.7+a.sd))*(1-a.mov);
@@ -290,11 +368,12 @@ a.tail.rotation.z=Math.sin(et*(a.mov>.1?14:3)+a.sd)*.5;
 a.g.rotation.z=a.fl>0?Math.sin(a.fl*40)*.25:0;
 a.g.position.set(a.x,a.y,a.z);a.g.rotation.y=a.ry;
 a.g.children.forEach(m=>m.material.emissive.setHex(a.fl>0?0x888888:0))}
+netTick(dt);
 if(play&&gm=='survival'){ft+=dt;ht+=dt;if(ft>25){ft=0;food=Math.max(0,food-1);hud()}
 if(ht>4){ht=0;if(food>=18&&hp<20){hp++;hud()}else if(food<=0)dmg(1)}}
 if(mt>0){mt-=dt;if(mt<=0)$('ts').textContent=''}
-const r=play?ray():null;if(r&&r.b){box.visible=true;box.position.set(r.b[0]+.5,r.b[1]+.5,r.b[2]+.5)}else box.visible=false;
-if(play){cam.position.set(P.x,P.y+1.55,P.z);cam.rotation.set(pitch,yaw,0)}else{ob+=dt*.12;cam.position.set(N/2+Math.cos(ob)*26,17,N/2+Math.sin(ob)*26);cam.lookAt(N/2,8,N/2)}
+const r=play?ray():null;if(r&&r.b){box.visible=true;box.position.set(r.b[0]+.5,r.b[1]+.5,r.b[2]+.5)}else box.visible=false;mining(r,dt);
+if(play){ey+=((P.sn?1.3:1.55)-ey)*Math.min(1,dt*12);cam.position.set(P.x,P.y+ey,P.z);cam.rotation.set(pitch,yaw,0)}else{ob+=dt*.12;cam.position.set(N/2+Math.cos(ob)*N*.55,20,N/2+Math.sin(ob)*N*.55);cam.lookAt(N/2,8,N/2)}
 rd.render(scene,cam)}
 loop();
 </script></body></html>
